@@ -1,0 +1,8 @@
+canvas {
+  display: block;
+  margin: auto;
+  width: 90vw;               /* 브라우저 가로의 90% */
+  max-width: 960px;  /* 최대 너비 1280px로 제한 */
+  aspect-ratio: 16 / 9;      /* 16:9 비율 유지 */
+  background: white;   /* 세로 가운데 정렬 */
+}
