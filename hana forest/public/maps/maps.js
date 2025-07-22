@@ -1,10 +1,24 @@
+import * as classroom from './classroom.js'
+import * as robot from '../minigames/robot.js'
+import * as classroomHallway from './classroomHallway.js'
+import * as studyRoom from './studyRoom.js'
+import * as dormHallway from './dormHallway.js'
 import * as closetGame from '../minigames/closetGame.js'
-import * as dormitory from './dormitory.js'
+import * as dorm from './dorm.js'
+import * as card from '../minigames/card.js'
 
 export const maplist = {
-    dormitory : dormitory,
-    closetGame : closetGame
+    classroom: classroom,
+    robot : robot,
+    classroomHallway: classroomHallway,
+    studyRoom: studyRoom,
+    dormHallway: dormHallway,
+    dorm : dorm,
+    closetGame : closetGame,
+    card : card,
+
 }
+
 
 const img = new Image();
 img.src = '';
@@ -16,7 +30,8 @@ export function loadMap(state){
     img.src = `/images/${state}.jpg`;
     img.onload = () =>{
         imgLoaded = true;
-}
+    }
+
 }
 
 export function drawMap(ctx, canvas, player){
