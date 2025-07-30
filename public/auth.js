@@ -1,85 +1,114 @@
-const auth = firebase.auth();
-const db = firebase.firestore();
+const DOMAIN = "@hanaforest.com";
 
+window.addEventListener("DOMContentLoaded", () => {
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-function signup() {
-  const email = document.getElementById("signupEmail").value;
-  const password = document.getElementById("signupPassword").value;
+  // 회원가입
+  window.signup = function () {
+    const id = document.getElementById("signupId").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const email = `${id}${DOMAIN}`;
 
-  auth.createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // 새 사용자 생성 후 tutorialDone 초기화
-      const user = userCredential.user;
-      return db.collection('users').doc(user.uid).set({
-        tutorialDone: false
+    auth
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        alert("회원가입 완료. 로그인해주세요")
+        return db.collection("users").doc(userCredential.user.uid).set({
+          tutorialDone: false,
+        });
+      })
+      .catch((error) => {
+        alert("회원가입 실패: " + error.message);
+        console.error("회원가입 에러:", error);
       });
-    })
-    .catch((error) => {
-      console.error("회원가입 에러:", error);
-    });
-}
-// 로그인 처리
-function login() {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  auth.signInWithEmailAndPassword(email, password).catch(console.error);
-}
+  };
 
-// 튜토리얼 완료 처리
-function completeTutorial() {
-  const user = auth.currentUser;
-  if (user) {
-    db.collection('users').doc(user.uid).set({ tutorialDone: true }, { merge: true })
+  // 로그인
+  window.login = function () {
+    const id = document.getElementById("loginId").value.trim();
+    const password = document.getElementById("loginPassword").value;
+    const email = `${id}${DOMAIN}`;
+
+    auth
+      .setPersistence(firebase.auth.Auth.Persistence.NONE)
       .then(() => {
-        console.log("1")
-        showPage('canvas');
-        loadGame();
+        return auth.signInWithEmailAndPassword(email, password);
+      })
+      .then((userCredential) => {
+        console.log("로그인 성공:", userCredential.user.email);
+        // 로그인 성공 후 아무것도 하지 않아도 됨 (onAuthStateChanged가 처리)
+      })
+      .catch((error) => {
+        alert("로그인 실패: " + error.message);
+        console.error("로그인 에러:", error);
       });
-  }
-}
+  };
 
-// 로그인 상태 감지
-auth.onAuthStateChanged(async (user) => {
-  if (!user) {
-    console.log("login plz")
-    showPage("loginPage");
-    return;
-  }
-
-  try {
-    const docRef = db.collection('users').doc(user.uid);
-    const doc = await docRef.get();
-
-    if (doc.exists && doc.data().tutorialDone === false) {
-      // 유저가 존재하면서 tutorialDone이 false거나 undefined이면 튜토리얼로
-        console.log("tutorial")
-
-      showPage("tutorialPage");
-    } else {
-    console.log("game start")
-
-      showPage("canvas");
-      loadGame(); // 본 게임 실행
+  // 튜토리얼 완료
+  window.completeTutorial = function () {
+    const user = auth.currentUser;
+    if (user) {
+      db.collection("users")
+        .doc(user.uid)
+        .set({ tutorialDone: true }, { merge: true })
+        .then(() => {
+          showPage("canvas");
+          loadGame();
+        });
     }
-  } catch (error) {
-    console.error("Firestore 접근 에러:", error);
-    showPage("loginPage");
+  };
+
+  // 로그인 상태 감지
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) {
+      console.log('loginPage')
+      showPage("loginPage");
+      return;
+    }
+
+    try {
+      const doc = await db.collection("users").doc(user.uid).get();
+      console.log('tutorial')
+      showPage("tutorialPage");
+      document.getElementById("loginContainer").style.display = "none"; //  로그인 화면 숨김
+    } catch (err) {
+      console.error("Firestore 접근 에러:", err);
+      showPage("loginPage");
+    }
+  });
+
+  // 페이지 전환
+  function showPage(id) {
+    ["loginPage", "tutorialPage", "canvas"].forEach((pid) => {
+      document.getElementById(pid).style.display = "none";
+    });
+    document.getElementById(id).style.display = "block";
+
+    if(id==="tutorialPage"){
+    loadTutorialScript();
+    }
+  }
+
+  // 게임 로딩
+  function loadGame() {
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "main.js";
+    document.body.appendChild(script);
   }
 });
 
 
-// 페이지 전환 함수
-function showPage(id) {
-  document.getElementById("loginPage").style.display = "none";
-  document.getElementById("tutorialPage").style.display = "none";
-  document.getElementById("canvas").style.display = "none";
-  document.getElementById(id).style.display = "block";
-}
+function loadTutorialScript() {
+  const scriptId = "tutorialScript";
 
-// 본 게임 실행 (main.js 동적 로딩)
-function loadGame() {
+  // 이미 로드한 경우 중복 방지
+  if (document.getElementById(scriptId)) return;
+
   const script = document.createElement("script");
-  script.type = "module";
-  script.src = "main.js";
+  script.type = "module"; // 필요에 따라 "text/javascript"로 변경
+  script.id = scriptId;
+  script.src = "tutorial.js"; // 원하는 JS 파일 경로
   document.body.appendChild(script);
 }

@@ -1,76 +1,60 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Hana-Forest</title>
 
-    <!-- update the version number as needed -->
-     
-    <script defer src="/__/firebase/11.10.0/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.10.0/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.10.0/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.10.0/firebase-storage-compat.js"></script>
- 
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-      // TODO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
+    <!-- Firebase SDK (Compat 버전) -->
+    <script defer src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/11.10.0/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
 
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyBfY_44GOUnR56gnEXHQwh6OlUhwRV2zyE",
-        authDomain: "hana-ti-823aa.firebaseapp.com",
-        projectId: "hana-ti-823aa",
-        storageBucket: "hana-ti-823aa.firebasestorage.app",
-        messagingSenderId: "17045800604",
-        appId: "1:17045800604:web:9951ad78ef8dc61d008f59"
-      };
+    <!-- Firebase 초기화 (compat 방식으로 직접 초기화) -->
+    <script defer>
+      window.addEventListener("DOMContentLoaded", () => {
+        const firebaseConfig = {
+          apiKey: "AIzaSyBfY_44GOUnR56gnEXHQwh6OlUhwRV2zyE",
+          authDomain: "hana-ti-823aa.firebaseapp.com",
+          projectId: "hana-ti-823aa",
+          storageBucket: "hana-ti-823aa.appspot.com",
+          messagingSenderId: "17045800604",
+          appId: "1:17045800604:web:9951ad78ef8dc61d008f59",
+        };
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
+      });
     </script>
-  
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
-    <link rel="stylesheet" href="/style/main.css">
+    <!-- 앱 로직 -->
+    <script defer src="auth.js"></script>
+
+    <link rel="stylesheet" href="/style/main.css" />
   </head>
   <body>
+    <div id="gameContainer" >
+      <div id="loginContainer">
+      <!-- 로그인 화면 -->
+        <div id="loginPage">
+          <p>플레이어 등록 후 로그인해주세요</p>
+          <input id="loginId" type="text" placeholder="아이디" />
+          <input id="loginPassword" type="password" placeholder="비밀번호" />
+          <button onclick="login()">로그인</button>
 
-    <!-- 로그인 화면 -->
-    <!-- <div id="loginPage">
-      <h2>로그인</h2>
-      <input id="email" type="email" placeholder="이메일">
-      <input id="password" type="password" placeholder="비밀번호">
-      <button onclick="login()">로그인</button>
-      <input type="email" id="signupEmail" placeholder="이메일">
-      <input type="password" id="signupPassword" placeholder="비밀번호">
-      <button onclick="signup()">회원가입</button>
-    </div> -->
+          <input id="signupId" type="text" placeholder="아이디" />
+          <input id="signupPassword" type="password" placeholder="비밀번호" />
+          <button onclick="signup()">플레이어 등록</button>
+        </div>
+      </div>
 
-    
-    <!-- 튜토리얼 화면 -->
-    <!-- <div id="tutorialPage" style="display:none;">
-      <h2>튜토리얼</h2>
-      <p>튜토리얼 내용을 여기에...</p>
-      <button onclick="completeTutorial()">튜토리얼 완료</button>
-    </div> -->
+      <!-- 튜토리얼 화면 -->
+      <div id="tutorialPage" style="display: none">
+      </div>
 
-    <!-- 게임 화면 -->
-       <!-- <canvas id="canvas" width="1280" height="720" style="display:none;"></canvas> -->
-
-    <canvas id = "canvas"></canvas>
-    
-    <script type = "module" src = "main.js"></script>
-
-    <!-- <script defer src="/__/firebase/init.js"></script>
-
-    <script defer src="auth.js"></script> -->
-     <!-- 이 파일에 로그인 상태 처리 로직이 들어감 -->
-
-
-
+      <!-- 게임 화면 -->
+      <canvas id="canvas" width="1280" height="720" style="display: none"></canvas>
+    </div>
   </body>
 </html>
+
+

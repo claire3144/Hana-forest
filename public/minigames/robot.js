@@ -30,7 +30,7 @@ startContainer.style.textAlign = "center";
 // -----------------------------------------------------------
 //게임 실패, 성공 시 메시지 띄우는 함수 정의
 //------------------------------------------------------------
-export function showEndMessage(message, delay = 1500) {
+export function showEndMessage(message, delay = 1500, player,loadMap) {
     const canvasRect = canvas.getBoundingClientRect(); //canvas 외곽선 검출
     const messageBox = document.createElement('div'); //메시지 박스 DOM 생성
     messageBox.style.left = `${canvasRect.left + canvasRect.width / 2}px`; //위치 지정
@@ -50,6 +50,15 @@ export function showEndMessage(message, delay = 1500) {
 
     setTimeout(() => {
         messageBox.remove(); //잠깐 기다렸다가 메시지박스 제거
+        if(message=='성공!'){
+            player.key = 11
+            console.log(`player key is changed to${player.key}`)
+            player.state = 'classroom';
+            player.x = 650;
+            player.y = 450;
+            loadMap('classroom');
+            return;
+        }
     }, delay);
 }
 
@@ -61,9 +70,7 @@ export function showEndMessage(message, delay = 1500) {
 export let isInitialized = false; //초기와 여부 표시 변수
 export let frameCount = 0; //시간 카운트용 프레임 카운트 변수
 
-let startTime = null; 
 let gameOver = false; //게임 실패 여부 표시 변수
-let maxTime = 5000; // 5초
 
 export let obstacles = [];
 //found 요소를 새로 정의하기 위해 상속받아서
@@ -104,7 +111,6 @@ export function init(player) {
     player.x = -100;
     player.y = 300;
     obstacles = [];
-    startTime = performance.now();
     gameOver = false;
 
 
@@ -149,7 +155,7 @@ function checkHiddenObjects(x, y) {
         x >= obj.x && x <= obj.x + obj.width &&
         y >= obj.y && y <= obj.y + obj.height) {
       obj.found = true;
-      showEndMessage(obj.message)
+      showEndMessage(obj.message,1500,null,null)
       // 점수 증가, 효과음 재생 등 추가 가능
     }
   });
@@ -164,21 +170,11 @@ export function gameLoop(player,_,loadMap){ //이걸 main.js에서 불러서 분
         obs.drawObj(ctx)
     }
 
-    if (interaction.every(block => block.found === true)) {
+    if (!gameOver&&interaction.every(block => block.found === true)) {
+        gameOver=true
         setTimeout(() => {
-            showEndMessage("성공!");
+            showEndMessage("성공!",1500,player,loadMap);
         }, 1500); // 1초 후에 메시지 표시
-
-        setTimeout(() => {       
-                    
-            player.key = 11
-            console.log(`player key is changed to${player.key}`)
-            player.state = 'classroom';
-            loadMap('classroom');
-            player.x = 650;
-            player.y = 450;
-            return;
-        }, 6000); // 메시지 표시 이후 0.5초 후에 맵 전환
     }
 
 

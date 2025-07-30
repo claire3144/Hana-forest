@@ -1,3 +1,4 @@
+
 canvas {
   display: block;
   margin: auto;
@@ -7,30 +8,73 @@ canvas {
   background: white;   /* 세로 가운데 정렬 */
 }
 
-.scoreDisplay{
-  position: absolute; top: 10px; left: 20px;
-  font-size: 20px; font-weight: bold;
+
+
+#gameContainer {
+  width: 90vw;
+  max-width: 960px;
+  aspect-ratio: 16 / 9;
+  background-image: url('/images/hana.jpg'); /* 이미지 경로 */
+  background-size: cover;                  /* 화면에 꽉 차게 */
+  background-position: center;             /* 중앙 정렬 */
+  margin: auto;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.restartBtn {
-  display: none;
-  /* position: absolute; top: 50%; left: 50%; */
-  transform: translate(-50%, -50%);
-  padding: 15px 30px;
-  font-size: 18px; background-color: #ff5252;
-  color: white; border: none; border-radius: 10px; cursor: pointer;
+/* 캔버스는 기존 스타일 유지 */
+#gameContainer canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
 }
 
-.messageBox {
-  position: absolute;
-  top: 50%;
+
+/* 로그인 폼 스타일 */
+#loginContainer {
+  position: absolute;  /* gameContainer 안에서 절대 위치 */
+  bottom: 20px;        /* 아래쪽 약간 위 */
   left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 36px;
-  font-weight: bold;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px 40px;
+  transform: translateX(-50%); /* 가로 중앙 정렬 */
+  background-color: rgba(255, 255, 255, 0.77); /* 반투명 흰색 배경 */
+  padding: 20px 30px;
   border-radius: 10px;
-  z-index: 999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  width: 420px;
+  z-index: 10; /* 캔버스 위에 나타나도록 */
+}
+
+#loginContainer input {
+  padding: 5px;
+  font-size: 12px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+#loginContainer input:focus {
+  border-color: #36624e;
+}
+
+#loginContainer button {
+  padding: 5px;
+  font-size: 12px;
+  background-color:#36624e;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#loginContainer button:hover {
+  background-color: #143e2b;
 }

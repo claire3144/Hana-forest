@@ -174,7 +174,7 @@ export let player = {
     width : 80,
     height: 80,
     speed : 10,
-    key: 0,
+    key: 2,
     interaction:true,
 
     
