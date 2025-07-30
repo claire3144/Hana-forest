@@ -36,20 +36,24 @@ canvas {
 
 /* 로그인 폼 스타일 */
 #loginContainer {
-  position: absolute;  /* gameContainer 안에서 절대 위치 */
-  bottom: 20px;        /* 아래쪽 약간 위 */
+  position: absolute;
+  top: 60%;  /* 화면 중간보다 조금 아래 */
   left: 50%;
-  transform: translateX(-50%); /* 가로 중앙 정렬 */
-  background-color: rgba(255, 255, 255, 0.77); /* 반투명 흰색 배경 */
-  padding: 20px 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: translate(-50%, 15%);  /* 중앙 정렬 */
+  background-color: rgba(3, 117, 9, 0.9); /* 초록색 + 약간 투명 */
+  padding: 15px 20px;  /* 여백 줄여서 높이 축소 */
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
   display: flex;
-  flex-direction: row;
-  gap: 20px;
-  width: 420px;
-  z-index: 10; /* 캔버스 위에 나타나도록 */
+  flex-direction: column; /* row → column으로 변경 */
+  align-items: center;    /* 내부 요소 가운데 정렬 */
+  gap: 6px;               /* 요소 간 간격 조정 */
+  width: 420px; 
+  z-index: 10;
+  text-align: center;     /* 글자 가운데 정렬 */
 }
+
+
 
 #loginContainer input {
   padding: 5px;
