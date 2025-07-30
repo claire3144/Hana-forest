@@ -1,0 +1,36 @@
+canvas {
+  display: block;
+  margin: auto;
+  width: 90vw;               /* 브라우저 가로의 90% */
+  max-width: 960px;  /* 최대 너비 1280px로 제한 */
+  aspect-ratio: 16 / 9;      /* 16:9 비율 유지 */
+  background: white;   /* 세로 가운데 정렬 */
+}
+
+.scoreDisplay{
+  position: absolute; top: 10px; left: 20px;
+  font-size: 20px; font-weight: bold;
+}
+
+.restartBtn {
+  display: none;
+  /* position: absolute; top: 50%; left: 50%; */
+  transform: translate(-50%, -50%);
+  padding: 15px 30px;
+  font-size: 18px; background-color: #ff5252;
+  color: white; border: none; border-radius: 10px; cursor: pointer;
+}
+
+.messageBox {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  border-radius: 10px;
+  z-index: 999;
+}
