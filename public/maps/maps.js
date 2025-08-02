@@ -5,8 +5,11 @@ import * as studyRoom from './studyRoom.js'
 import * as dormHallway from './dormHallway.js'
 import * as closetGame from '../minigames/closetGame.js'
 import * as dorm from './dorm.js'
-import * as card from '../minigames/card.js'
-import * as ending from './ending.js'
+import * as cardGame from '../minigames/cardGame.js'
+import * as ending1 from '../minigames/ending1.js'
+import * as ending2 from '../minigames/ending2.js'
+import * as card from '../npc/card.js'
+
 
 export const maplist = {
     classroom: classroom,
@@ -16,8 +19,10 @@ export const maplist = {
     dormHallway: dormHallway,
     dorm : dorm,
     closetGame : closetGame,
-    card : card,
-    ending: ending,
+    cardGame : cardGame,
+    ending1: ending1,
+    ending2: ending2,
+    card: card
 
 }
 
@@ -29,9 +34,11 @@ let imgLoaded = false;
 
 export function loadMap(state){
     imgLoaded = false;
-    img.src = `/images/${state}.jpg`;
+    img.src = `../images/${state}.jpg`;
+    console.log('okk')
     img.onload = () =>{
         imgLoaded = true;
+        console.log('ok')
     }
 
 }

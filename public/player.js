@@ -96,12 +96,12 @@ function showWhereToGo(obs,callback,canvas){
   if(player.key<=1){ dialog.innerHTML = `
     <p>생활관 선생님이 부르시는것 같아!</p>`;
   }
-  else if(player.key===2){
-    dialog.innerHTML = m+classroom
-  }
-  else if(player.key==3){
+  else if(player.key==3||(player.key==2&&player.state=='classroomHallway')){
     dialog.innerHTML = `
     <p>교실 안에서 선생님이 기다리고 계신것 같은데?</p>`;
+  }
+  else if(player.key===2){
+    dialog.innerHTML = m+classroom
   }
   else if(player.key==4){
     dialog.innerHTML = `
@@ -157,24 +157,25 @@ export function isColliding(rect1, rect2) {
 const playerState = {//맵 별로 초기 시작 위치 다르게 설정 가능
     classroom:{x: 300, y: 100},
     robot:{x: -100, y: 100},
-    classroomHallway:{x:300,y:400,xin:1100,yin:450},
+    classroomHallway:{x:300,y:400,xin:1000,yin:450},
     studyRoom:{xin:250,yin:550},
-    dormHallway:{x:430,y:130,xin:1100,yin:360},
+    dormHallway:{x:430,y:130,xin:1000,yin:360},
     dorm: { x: 580, y : 570},
     closetGame: { x: 100, y: 590 }, 
-    card :{x:500,y:500},
-    ending:{x:0,y:0}
+    cardGame :{x:500,y:500},
+    ending:{x:0,y:0},
+    card: {x:0, y:0}
 }
 
 export let player = {
     state : "dorm",
     mode: "",
-    x : 1000,
-    y: 600,
+    x : 900,
+    y: 590,
     width : 80,
     height: 80,
     speed : 10,
-    key: 2,
+    key: 0,
     interaction:true,
 
     

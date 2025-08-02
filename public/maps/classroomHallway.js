@@ -9,7 +9,7 @@ export const obstacles = [
 
 export const interaction = [
     // new Block(670, 340, 200, 100, 'homebase' ),
-    new Block(1200,350,100,250,'whereToGo',null,"어디로 가면 좋을까?"),
+    new Block(1100,350,200,250,'whereToGo',null,"어디로 가면 좋을까?"),
     new Block(250,550,150,120,'classroom',classroom,"교과교실로 들어가시겠습니까?"),
     new Block(950,400,100,100,'teacher npc',teacher_npc,'선생님과 대화를 시작하시겠습니까?',null,4)
 ]

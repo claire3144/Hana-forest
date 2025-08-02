@@ -16,38 +16,41 @@ startContainer.innerHTML = `
     <p class = 'text'>설계도와 로봇의 다른 점을 찾아 클릭하세요!</p>
     <button id="startGameBtn">Start</button>`;
 startContainer.classList.add("scoreDisplay")
-startContainer.style.position = "absolute";
-startContainer.style.left = `${canvasRect.left + canvasRect.width /2}px`;
-startContainer.style.top = `${canvasRect.top + canvasRect.height /2}px`;
-startContainer.style.transform = 'translate(-50%, -50%)';
-startContainer.style.zIndex = 10;
-//창 배경 설정
-startContainer.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-startContainer.style.padding = "10px";
-startContainer.style.border = "2px solid #333";
-startContainer.style.borderRadius = "0px";
-startContainer.style.textAlign = "center";
+   Object.assign(startContainer.style, {
+    position: 'absolute',
+    left: '50%',
+    top: '50%',
+    transform: 'translate(-50%, -50%)',
+    backgroundColor: "rgba(255, 255, 255, 0.9)",
+    padding: "10px",
+    border: "2px solid #333",
+    borderRadius: "5px",
+    textAlign: "center",
+    fontSize: "40px",
+    color: "#000",
+    zIndex: "1000"
+  });
 // -----------------------------------------------------------
 //게임 실패, 성공 시 메시지 띄우는 함수 정의
 //------------------------------------------------------------
 export function showEndMessage(message, delay = 1500, player,loadMap) {
-    const canvasRect = canvas.getBoundingClientRect(); //canvas 외곽선 검출
-    const messageBox = document.createElement('div'); //메시지 박스 DOM 생성
-    messageBox.style.left = `${canvasRect.left + canvasRect.width / 2}px`; //위치 지정
-    messageBox.style.top = `${canvasRect.top + canvasRect.height / 2}px`;
-    messageBox.style.transform = 'translate(-50%, -50%)';
-    messageBox.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-    messageBox.style.padding = "10px";
-    messageBox.style.border = "2px solid #333";
-    messageBox.style.borderRadius = "0px";
-    messageBox.style.textAlign = "center";
-    messageBox.style.fontSize = "20px";  
-    messageBox.style.color = "#000";     // 글씨 색 설정
-    messageBox.style.zIndex = "1000"; 
-    messageBox.className = 'messageBox';  // CSS 클래스 지정
-    messageBox.textContent = message; //메시지는 인수로 전달
-    document.body.appendChild(messageBox); //DOM 화면에 표시
-
+  const canvasRect = canvas.getBoundingClientRect();
+  const messageBox = document.createElement('div');
+  messageBox.style.position = "absolute";
+  messageBox.style.left = `${canvasRect.left + canvasRect.width / 2}px`;
+  messageBox.style.top = `${canvasRect.top + canvasRect.height / 2}px`;
+  messageBox.style.transform = 'translate(-50%, -50%)';
+  messageBox.className = 'messageBox';
+  messageBox.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
+  messageBox.style.padding = "20px";
+  messageBox.style.border = "2px solid #333";
+  messageBox.style.borderRadius = "5px";
+  messageBox.style.fontSize = "40px";
+  messageBox.style.color = "#000";
+  messageBox.style.zIndex = "1000";
+  messageBox.textContent = message;
+  document.body.appendChild(messageBox);
+  
     setTimeout(() => {
         messageBox.remove(); //잠깐 기다렸다가 메시지박스 제거
         if(message=='성공!'){
