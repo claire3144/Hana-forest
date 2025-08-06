@@ -151,6 +151,14 @@ export function isColliding(rect1, rect2) {
   );
 }
 
+export const playerImage = new Image();
+playerImage.src = './images/player.png';
+
+export let isImageLoaded = false;
+playerImage.onload = () => {
+  isImageLoaded = true;
+};
+
 //------------------------------------------------
 //player object
 //------------------------------------------------
@@ -158,7 +166,7 @@ const playerState = {//맵 별로 초기 시작 위치 다르게 설정 가능
     classroom:{x: 300, y: 100},
     robot:{x: -100, y: 100},
     classroomHallway:{x:300,y:400,xin:1000,yin:450},
-    studyRoom:{xin:250,yin:550},
+    studyRoom:{xin:200,yin:550},
     dormHallway:{x:430,y:130,xin:1000,yin:360},
     dorm: { x: 580, y : 570},
     closetGame: { x: 100, y: 590 }, 
@@ -177,28 +185,76 @@ export let player = {
     speed : 10,
     key: 0,
     interaction:true,
+    dirX:0,
+    dirY:0,
 
+      //  스프라이트 관련 속성 추가
+  sprite: {
+    frameX: 0,
+    frameY: 0,
+    frameCount: 4,
+    frameDelay: 10,
+    spriteWidth: 50,
+    spriteHeight: 100,
+    frameTimer: 0 
+  },
     
     init(){
         this.x = playerState[this.state].x;
         this.y = playerState[this.state].y;
 
     },
+          getDirection(inputX, inputY) {
+    if (inputY > 0 && inputX === 0) return 0; // down
+    if (inputX < 0 && inputY === 0) return 1; // left
+    if (inputX > 0 && inputY === 0) return 2; // right
+    if (inputY < 0 && inputX === 0) return 3; // up
+
+    if (inputX > 0 && inputY < 0) return 4; // up-right
+    if (inputX < 0 && inputY < 0) return 5; // up-left
+    if (inputX < 0 && inputY > 0) return 6; // down-left
+    if (inputX > 0 && inputY > 0) return 7; // down-right
+  },
     move(canvas, maplist,callback) {
         const prevX = this.x;
       const prevY = this.y;
 
+
+    this.dirX = 0
+    this.dirY = 0
+
     if (this.state === 'closetGame') {
     // closetGame에서는 좌우 이동만 허용
-    if (Input.isPressed('a')) this.x -= this.speed;
-    if (Input.isPressed('d')) this.x += this.speed;
+    if (Input.isPressed('a')) this.dirX = -1;
+    if (Input.isPressed('d')) this.dirX = 1;
     } else {
     // 나머지 맵에서는 모든 방향 허용
-    if (Input.isPressed('w')) this.y -= this.speed;
-    if (Input.isPressed('s')) this.y += this.speed;
-    if (Input.isPressed('a')) this.x -= this.speed;
-    if (Input.isPressed('d')) this.x += this.speed;
+    if (Input.isPressed('w')) this.dirY = -1;
+    if (Input.isPressed('s')) this.dirY = 1;
+    if (Input.isPressed('a')) this.dirX = -1;
+    if (Input.isPressed('d')) this.dirX = 1;
   }
+  this.x += this.dirX * this.speed;
+  this.y += this.dirY * this.speed;
+
+
+const isMoving = this.dirX !== 0 || this.dirY !== 0;
+
+if (isMoving) {
+  const dir = this.getDirection(this.dirX, this.dirY);
+  if (dir !== undefined) {
+    this.sprite.frameY = dir; // 행 설정 (방향별 애니메이션 라인)
+  }
+
+  // 애니메이션 업데이트
+  this.sprite.frameTimer++;
+  if (this.sprite.frameTimer >= this.sprite.frameDelay) {
+    this.sprite.frameX = (this.sprite.frameX + 1) % this.sprite.frameCount;
+    this.sprite.frameTimer = 0;
+  }
+} else {
+  this.sprite.frameX = 0; // 멈췄을 땐 첫 프레임 고정
+}
 
         //캔버스 밖으로 못 나가게 처리(x)
         if (this.x < 0) this.x = 0; 
@@ -248,11 +304,24 @@ export let player = {
             ctx.fillStyle = 'green';
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
-    } else {
-        // 기본 그리기 방식
-        ctx.fillStyle = 'green';
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
+    }else if(isImageLoaded){
+    const sx = this.sprite.frameX * this.sprite.spriteWidth;
+    const sy = this.sprite.frameY * this.sprite.spriteHeight;
+
+    ctx.drawImage(
+      playerImage,
+      sx, sy,
+      this.sprite.spriteWidth,
+      this.sprite.spriteHeight,
+      this.x, this.y-80,
+      this.width, this.height+80
+    );
+    } 
+    // else {
+    //     // 기본 그리기 방식
+    //     ctx.fillStyle = 'green';
+    //     ctx.fillRect(this.x, this.y, this.width, this.height);
+    // }
 }
 ,
 

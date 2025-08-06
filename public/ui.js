@@ -2,7 +2,7 @@
 const messageBox = document.createElement('div');
 Object.assign(messageBox.style, {
     position: 'absolute',
-    left: '80%',
+    left: '75%',
     top: '10%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: "rgba(255, 255, 255, 0.9)",

@@ -1,19 +1,25 @@
 import { Block } from "../maps/block.js";
 
 const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext("2d");
 const canvasWrapper = canvas.parentElement;
-canvasWrapper.style.position = 'relative'; // 성공, 실패 창 때문에 기춘 수정함
+canvasWrapper.style.position = 'relative';
 
-// -----------------------------------------------------------
-// 스코어(게임 초) html DOM으로 표시
-// -----------------------------------------------------------
+// 이미지 preload
+const obstacleImg = new Image();
+obstacleImg.src = "/images/dormCard.png";
+
+const backgroundImg = new Image();
+backgroundImg.src = "/images/cardGame.jpg";
+
+// 스코어 표시 DOM
 const scoreDisplay = document.createElement("div");
 scoreDisplay.id = "scoreDisplay";
 scoreDisplay.innerHTML = `<div id="score">Score: 0.0s</div>`;
 Object.assign(scoreDisplay.style, {
   position: "absolute",
-  left: `20px`,
-  top: `20px`,
+  left: `300px`,
+  top: `50px`,
   backgroundColor: "rgba(255, 255, 255, 0.9)",
   padding: "10px",
   border: "2px solid #333",
@@ -24,38 +30,29 @@ Object.assign(scoreDisplay.style, {
   zIndex: "1000"
 });
 
-// -----------------------------------------------------------
-// 게임 시작 버튼 html DOM으로 표시
-// -----------------------------------------------------------
+// 시작 버튼 DOM
 const startContainer = document.createElement("div");
-const canvasRect = canvas.getBoundingClientRect();
 startContainer.id = "startContainer";
 startContainer.innerHTML = `
-    <p id ='title'>생활관 선생님이 던지시는 벌점 카드를 피해야 합니다!</p>
-    <p class = 'text'>지난날 다 먹은 라면 용기를 들켰던 당신.</p>
-    <p class = 'text'>어제는 벌점을 피했었지만 오늘은 빠져나가지 못했습니다ㅠ</p>
-    <p class = 'text'>날아오는 벌점카드를 피해 5초간 살아남으세요!</p>
-    <button id="startGameBtn">Start</button>`;
-startContainer.classList.add("scoreDisplay");
- Object.assign(startContainer.style, {
-    position: 'absolute',
-    left: '50%',
-    top: '50%',
-    transform: 'translate(-50%, -50%)',
-    backgroundColor: "rgba(255, 255, 255, 0.9)",
-    padding: "10px",
-    border: "2px solid #333",
-    borderRadius: "5px",
-    textAlign: "center",
-    fontSize: "16px",
-    color: "#000",
-    zIndex: "1000"
-  });
+  <p>게임을 시작하려면 버튼을 누르세요</p>
+  <button id="startGameBtn">Start</button>`;
+Object.assign(startContainer.style, {
+  position: "absolute",
+  left: `50%`,
+  top: `50%`,
+  transform: "translate(-50%, -50%)",
+  backgroundColor: "rgba(255, 255, 255, 0.9)",
+  padding: "10px",
+  border: "2px solid #333",
+  borderRadius: "5px",
+  textAlign: "center",
+  fontSize: "16px",
+  color: "#000",
+  zIndex: "1000"
+});
 
-// -----------------------------------------------------------
-// 게임 실패, 성공 시 메시지 띄우는 함수 정의
-// -----------------------------------------------------------
-export function showEndMessage(message, delay = 1500) {
+// 게임 종료 메시지
+export function showEndMessage(message, delay = 500) {
   const messageBox = document.createElement('div');
   messageBox.textContent = message;
   Object.assign(messageBox.style, {
@@ -68,7 +65,7 @@ export function showEndMessage(message, delay = 1500) {
     border: "2px solid #333",
     borderRadius: "5px",
     textAlign: "center",
-    fontSize: "16px",
+    fontSize: "40px",
     color: "#000",
     zIndex: "1000"
   });
@@ -76,43 +73,7 @@ export function showEndMessage(message, delay = 1500) {
   setTimeout(() => messageBox.remove(), delay);
 }
 
-export function showOverMessage() {
-      if (!document.getElementById("startContainer")) {
-        const restartContainer = document.createElement("div");
-        const canvasRect = canvas.getBoundingClientRect();
-        restartContainer.id = "startContainer";
-        restartContainer.innerHTML = `
-          <p>실패 ㅠㅠ</p>
-          <p>게임을 다시 시작하려면 버튼을 누르세요</p>
-          <button id="startGameBtn">Start</button>`;
-        restartContainer.classList.add("scoreDisplay");
-
-        Object.assign(restartContainer.style, {
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          transform: 'translate(-50%, -50%)',
-          backgroundColor: "rgba(255, 255, 255, 0.9)",
-          padding: "10px",
-          border: "2px solid #333",
-          borderRadius: "5px",
-          textAlign: "center",
-          fontSize: "16px",
-          color: "#000",
-          zIndex: "1000"
-        });
-        document.body.appendChild(restartContainer);
-
-        const startBtn = document.getElementById("startGameBtn");
-        startBtn.onclick = () => {
-          isInitialized = false;
-          gameOver = false;
-          restartContainer.remove();
-}}}
-
-// -----------------------------------------------------------
-// 게임 기본 변수 설정
-// -----------------------------------------------------------
+// 기본 변수
 export let isInitialized = false;
 export let frameCount = 0;
 let startTime = null;
@@ -123,16 +84,11 @@ let gameFinished = false;
 export let obstacles = [];
 export let interaction = [];
 
-// -----------------------------------------------------------
-//게임 설정 초기화 함수
-//------------------------------------------------------------
-
+// 초기화
 export function init(player) {
-  console.log('game started')
   if (!document.getElementById("scoreDisplay")) {
     canvasWrapper.appendChild(scoreDisplay);
   }
-
   if (!document.getElementById("startContainer")) {
     canvasWrapper.appendChild(startContainer);
   }
@@ -143,6 +99,7 @@ export function init(player) {
   obstacles = [];
   startTime = performance.now();
   gameOver = false;
+  gameFinished = false;
 
   const startBtn = document.getElementById("startGameBtn");
   startBtn.onclick = () => {
@@ -152,9 +109,7 @@ export function init(player) {
   };
 }
 
-// -----------------------------------------------------------
-// 장애물 생성 함수
-// -----------------------------------------------------------
+// 장애물 생성
 function makeObs() {
   if (frameCount % 30 === 0) {
     let x = 1280;
@@ -175,49 +130,64 @@ function makeObs() {
   }
 }
 
-// -----------------------------------------------------------
-// 장애물 움직임 함수
-// -----------------------------------------------------------
+// 장애물 이동 + 충돌 체크
 function move(player, callback) {
-  obstacles.forEach((obs, i, obstacles) => {
+  obstacles.forEach((obs, i) => {
     if (obs.x + obs.width < 0) {
       obstacles.splice(i, 1);
+      return;
     }
+
     if (!gameOver && !gameFinished && callback(player, obs)) {
-      gameOver = true
-      showOverMessage()
+      showEndMessage("실패 ㅠㅠ");
+      setTimeout(() => {
+        isInitialized = false;
+        gameOver = true;
+      }, 500);
     }
+
     obs.x -= obs.speed;
     obs.y = obs.baseY + Math.sin(frameCount * obs.freq) * obs.amplitude;
   });
 }
 
-// -----------------------------------------------------------
-// 게임 실행 루프
-// -----------------------------------------------------------
+function drawBackground() {
+  ctx.drawImage(backgroundImg, 0, 0, canvas.width, canvas.height);
+}
+
+function drawObstacles() {
+  obstacles.forEach((obs) => {
+    ctx.drawImage(obstacleImg, obs.x, obs.y, obs.width, obs.height);
+  });
+}
+
+// 메인 게임 루프
 export function gameLoop(player, callback, loadMap) {
   if (!isInitialized) return;
+
   frameCount++;
   const now = performance.now();
   const elapsed = now - startTime;
   const seconds = (elapsed / 1000).toFixed(1);
   scoreDisplay.textContent = `Score: ${seconds}s`;
-  if(!gameOver){
+
+  makeObs();
+  move(player, callback);
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBackground();
+  drawObstacles();
+
   if (!gameFinished && elapsed >= maxTime) {
     gameFinished = true;
     scoreDisplay.remove();
     player.key = 2;
-    console.log(`player key is changed to${player.key}`)
     showEndMessage("성공!");
     setTimeout(() => {
       player.state = 'dormHallway';
       loadMap('dormHallway');
       player.x = 300;
       player.y = 380;
-    }, 1500);
+    }, 500);
   }
-  }
-  makeObs();
-  move(player, callback);
-
 }

@@ -1,18 +1,18 @@
 import { Block } from "./block.js";
 
 export const obstacles = [
-    new Block(130,100,230,350,'desk(l)'),
-    new Block(520,100,230,350,'desk(c)'),
-    new Block(920,100,230,350,'desk(r)'),
-    new Block(0,650,200,100,'underWall(l)'),
-    new Block(400,650,880,100,'underWall(r)'),
+    new Block(180,70,230,420,'desk(l)'),
+    new Block(520,70,230,420,'desk(c)'),
+    new Block(870,70,230,420,'desk(r)'),
+    new Block(0,620,200,100,'underWall(l)'),
+    new Block(400,620,880,100,'underWall(r)'),
     new Block(150,530,20,20,'friend'),
 
 ]
 export const interaction = [
-    new Block(120,500,80,80,'friend',friend,"친구를 찾았다! 말을 걸어볼까?"),
-    new Block(870,100,50,100,'robotPart',robotPart,"로봇 부품을 챙겨갈까?",null,6),
-    new Block(200,650,200,100,'whereToGo',null,"어디로 가면 좋을까?")
+    new Block(120,510,80,80,'friend',friend,"친구를 찾았다! 말을 걸어볼까?"),
+    new Block(840,100,100,100,'robotPart',robotPart,"로봇 부품을 챙겨갈까?",null,6),
+    new Block(200,620,200,100,'whereToGo',null,"어디로 가면 좋을까?")
 ]
 
 export function friend(player){
@@ -59,7 +59,7 @@ function showMessage(message, delay, player) {
     messageBox.style.border = "2px solid #333";
     messageBox.style.borderRadius = "5px";
     messageBox.style.textAlign = "center";
-    messageBox.style.fontSize = "14px";  
+    messageBox.style.fontSize = "14pxda";  
     messageBox.style.color = "#000"; // 글씨 색 설정
     messageBox.style.zIndex = "1000";
     messageBox.className = 'messageBox'; // CSS 클래스 지정

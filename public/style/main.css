@@ -82,3 +82,34 @@ canvas {
 #loginContainer button:hover {
   background-color: #143e2b;
 }
+
+/* bgm 버튼 */
+#canvas {
+  display: block;
+  margin: 0 auto;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+#bgmToggleBtn {
+  position: absolute;
+  z-index: 10;
+  padding: 6px 12px;
+  font-size: 14px;
+  background: white;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#bgmToggleBtn {
+  background-color: white;
+  color: black;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  cursor: pointer;
+  padding: 6px 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 1000;
+  position: absolute;
+}

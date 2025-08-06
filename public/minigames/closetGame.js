@@ -42,14 +42,14 @@ startContainer.innerHTML = `
     <p class = 'text'>로봇 부품을 찾고 있던 당신.</p>
     <p class = 'text'>룸메의 옷장 어딘가에 그것이 있다는 것을 알아냈습니다. </p>
     <p class = 'text'>옷장에서 마구 떨어지는 로봇 부품 아이템을 찾아 담아보세요!</p>
-    <p class = 'text'>찾아야 하는것: 볼트(+1), 렌치(+2), 로봇 얼굴(+3)</p>
-    <p class = 'text'>찾으면 안되는 것: 티셔츠(-1), 재킷(-2), 라면(-3)</p>
+    <p class = 'text'>찾아야 하는것🙆: 볼트(+1), 렌치(+2), 로봇 얼굴(+3)</p>
+    <p class = 'text'>찾으면 안되는 것🥲: 티셔츠(-1), 재킷(-2), 라면(-3)</p>
     <button id="startGameBtn">Start</button>`;
 startContainer.classList.add("scoreDisplay");
    Object.assign(startContainer.style, {
     position: 'absolute',
     left: '50%',
-    top: '40%',
+    top: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: "10px",
@@ -171,7 +171,7 @@ export function showEndMessage(message, delay = 3000, player = null, loadMap = n
    Object.assign(messageBox.style, {
     position: 'absolute',
     left: '50%',
-    top: '40%',
+    top: '50%',
     transform: 'translate(-50%, -50%)',
     backgroundColor: "rgba(255, 255, 255, 0.9)",
     padding: "10px",

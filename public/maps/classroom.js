@@ -1,24 +1,22 @@
 import { Block } from "./block.js";
 
 export const obstacles = [
-    new Block(0,0,100,100, "upper wall(l)"),
-    new Block(250,0,860,100, "upper wall(c)"),
-    new Block(1100,0,200,100, "upper wall(r)"), 
-    new Block(0,220,40,500, "blackboard"),
-    new Block(180, 400, 60, 100, "lectern"),
-    new Block(380, 600, 80, 80, "table"),
-    new Block(1100, 420, 80, 80, "table"),
-    new Block(830, 600, 80, 80,"table"),
-    new Block(100,0,150,100,"doorShut"),
-    new Block( 600,270,100,100,"robot"),
-    new Block(1050,310,20,20,"teatcher npc"), 
+    new Block(0,0,200,175, "upper wall(l)"),
+    new Block(350,0,1000,175, "upper wall(r)"), 
+    new Block(0,330,50,500, "blackboard"),
+    new Block(190, 375, 90, 150, "table_1"),
+    new Block(430, 490, 210, 200, "table_group"),
+    new Block(880, 500, 90, 160,"table_2"),
+    new Block(1065, 400, 100, 200, "table_3"),
+    new Block(600,270,130,130,"robot"),
+    //new Block(960,200,65,160,"teacher npc"), 
 
 ]
 
 export const interaction = [
-    new Block( 575,350,150,50,"robot",robot,"로봇을 조립하시겠습니까?",null,10),
-    new Block(1020,280,80,80,"teatcher npc",teacher_npc,"선생님과 대화를 하시겠습니까?"), 
-    new Block(250,50,150,100,"classroomHallway",null,'복도로 나가시겠습니까?')
+    new Block(580,250,150,150,"robot",robot,"로봇을 조립하시겠습니까?",null,10),
+    new Block(960,200,65,160,"teacher npc",teacher_npc,"선생님과 대화를 하시겠습니까?"), 
+    new Block(200,0,150,175,"classroomHallway",null,'복도로 나가시겠습니까?'),
 ]
 
 export function teacher_npc(player){

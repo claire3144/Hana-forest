@@ -1,13 +1,13 @@
 import { Block } from "./block.js";
 
 export const obstacles = [
-    new Block(0, 0, 360, 130,'Wall_left'),
-    new Block(490, 0, 800, 130, 'Wall_right'),
+    new Block(0, 0, 350, 130,'Wall_left'),
+    new Block(500, 0, 800, 130, 'Wall_right'),
 ]
 
 export const interaction = [
     new Block(1100, 130, 200, 600, 'whereToGo', null, "어디로 이동하면 좋을까?"),
-    new Block(360, 0, 130, 130, 'dorm', dorm, "기숙사 호실로 들어갈까?"),
+    new Block(350, 0, 150, 130, 'dorm', dorm, "기숙사 호실로 들어갈까?"),
     new Block(100, 380, 100, 100, 'card', card, "생활관 선생님과 대화를 시도해볼까?", null, 1)
 ]
 

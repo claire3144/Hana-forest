@@ -11,22 +11,21 @@ export const obstacles = [
   new Block(0, 345, 350, 180, "bed_bottom_left"),
 
   // Right Top Bed + Desk
-  new Block(1030, 165, 250, 180, "desk_top_right"),
-  new Block(950, 0, 350, 165, "bed_top_right"),
+  new Block(1030, 165, 250, 200, "desk_top_right"),
+  new Block(950, 0, 350, 200, "bed_top_right"),
 
   // Right Bottom Bed + Desk
   new Block(1030, 500, 250, 250, "desk_bottom_right"),
-  new Block(950, 345, 350, 180, "bed_bottom_right"),
+  new Block(950, 345, 350, 200, "bed_bottom_right"),
 
-  // Center Closets (2x2)
-  new Block(575, 40, 130, 125, "closet_top"),
-  new Block(575, 310, 130, 400, "closet_bottom"),
+  // Center Closets
+  new Block(575, 40, 130, 510, "closet_top"),
 ];
 
 export const interaction = [
-  new Block(575, 170, 130, 160, "closetGame",closetGame,"옷장에서 로봇 부품을 찾아보자!",null,8),
+  new Block(575, 170, 150, 160, "closetGame",closetGame,"옷장에서 로봇 부품을 찾아보자!",null,8),
   new Block(900, 220, 80, 80, "roommateNPC",roommateNPC,"룸메이트와 대화해볼까?"),
-  new Block(560, 580, 170, 500, "dormHallway",dormHallway,"복도로 나가볼까?")
+  new Block(560, 600, 160, 200, "dormHallway",dormHallway,"복도로 나가볼까?")
 ];
 
 export function dormHallway(player){
